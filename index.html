@@ -62,6 +62,15 @@
           <div class="info-row"><span>Vehicle</span><strong>Xe 05</strong></div>
           <div class="info-row"><span>Mode</span><strong>Sẵn sàng thu hồi</strong></div>
         </div>
+        <div class="overview-card">
+          <div class="overview-title">Overview</div>
+          <div class="overview-grid">
+            <div><strong id="overviewActiveVehicle">05</strong><span>Xe đang hoạt động</span></div>
+            <div><strong id="overviewInTransit">420</strong><span>Khay đang vận chuyển</span></div>
+            <div><strong id="overviewWaiting">105</strong><span>Khay chờ thu hồi</span></div>
+            <div><strong id="overviewRecovered">315</strong><span>Khay đã thu hồi</span></div>
+          </div>
+        </div>
       </aside>
 
       <section class="content card">
@@ -95,10 +104,11 @@
                   </div>
                 </div>
                 <div class="role-switcher" role="group" aria-label="Vai trò cập nhật">
-                  <button class="role-btn active" data-role="dc">1. Kho tổng</button>
-                  <button class="role-btn" data-role="driver" disabled>2. Tài xế</button>
+                  <button class="role-btn active" data-role="dc_send">1. Kho đi</button>
+                  <button class="role-btn" data-role="driver_send" disabled>2. TX đi</button>
                   <button class="role-btn" data-role="store" disabled>3. Siêu thị</button>
-                  <button class="role-btn" data-role="return" disabled>4. Thu hồi</button>
+                  <button class="role-btn" data-role="driver_return" disabled>4. TX về</button>
+                  <button class="role-btn" data-role="dc_receive" disabled>5. Kho về</button>
                 </div>
                 <div class="step-track" aria-label="Tiến trình vòng đời khay">
                   <div class="step-dot active" data-step="0"></div>
@@ -108,10 +118,16 @@
                   <div class="step-dot" data-step="2"></div>
                   <div class="step-line"></div>
                   <div class="step-dot" data-step="3"></div>
+                  <div class="step-line"></div>
+                  <div class="step-dot" data-step="4"></div>
+                  <div class="step-line"></div>
+                  <div class="step-dot" data-step="5"></div>
                 </div>
                 <h2>QR khay #001</h2>
                 <p>Quét theo từng bước.</p>
                 <button class="action-btn" id="scanBtn">Quét QR</button>
+                <button class="action-btn ghost" id="confirmEmptyBtn" type="button">Xác nhận khay rỗng</button>
+                <button class="history-btn" id="historyBtn" type="button">Xem lịch sử khay</button>
                 <div class="result-card" id="scanResult">
                   <span class="result-chip">Tại DC</span>
                   <strong>Khay #001</strong>
@@ -131,28 +147,37 @@
               </div>
               <div class="route-list">
                 <article class="route-card active" data-route="05">
-                  <div>
-                    <h3>Xe 05</h3>
-                    <p>DC Bình Dương → BHX A Quận 3 → BHX B Quận 10</p>
-                    <small class="route-meta">8.4 km | 3 điểm dừng</small>
+                  <div class="route-card-main">
+                    <div class="route-info">
+                      <h3>Xe 05</h3>
+                      <p>DC Bình Dương → BHX A Quận 3 → BHX B Quận 10</p>
+                      <small class="route-meta">8.4 km | 3 điểm dừng</small>
+                    </div>
+                    <span class="route-status">Đang giao</span>
                   </div>
-                  <span class="route-status">Đang giao</span>
+                  <div class="route-progress"><div class="progress-bar" style="width: 45%;"></div></div>
                 </article>
                 <article class="route-card" data-route="12">
-                  <div>
-                    <h3>Xe 12</h3>
-                    <p>DC Bình Dương → BHX C Tân Bình → BHX D Phú Nhuận</p>
-                    <small class="route-meta">11.2 km | 3 điểm dừng</small>
+                  <div class="route-card-main">
+                    <div class="route-info">
+                      <h3>Xe 12</h3>
+                      <p>DC Bình Dương → BHX C Tân Bình → BHX D Phú Nhuận</p>
+                      <small class="route-meta">11.2 km | 3 điểm dừng</small>
+                    </div>
+                    <span class="route-status">Chờ thu hồi</span>
                   </div>
-                  <span class="route-status">Chờ thu hồi</span>
+                  <div class="route-progress"><div class="progress-bar" style="width: 25%;"></div></div>
                 </article>
                 <article class="route-card" data-route="21">
-                  <div>
-                    <h3>Xe 21</h3>
-                    <p>DC Bình Dương → BHX E Quận 7 → BHX F Nhà Bè</p>
-                    <small class="route-meta">14.6 km | 3 điểm dừng</small>
+                  <div class="route-card-main">
+                    <div class="route-info">
+                      <h3>Xe 21</h3>
+                      <p>DC Bình Dương → BHX E Quận 7 → BHX F Nhà Bè</p>
+                      <small class="route-meta">14.6 km | 3 điểm dừng</small>
+                    </div>
+                    <span class="route-status">Hoàn tất</span>
                   </div>
-                  <span class="route-status">Hoàn tất</span>
+                  <div class="route-progress"><div class="progress-bar" style="width: 100%;"></div></div>
                 </article>
               </div>
               <div class="context-chip" id="routeContext">Ngữ cảnh: Xe 05</div>
@@ -164,8 +189,22 @@
 
             <div class="panel">
               <div class="panel-head">
-                <h2>Lộ trình thu hồi</h2>
+                <h2>Điều phối chuyến xe</h2>
                 <span class="pill accent" id="suggestPill">Sẵn sàng</span>
+              </div>
+              <div class="vehicle-detail" id="vehicleDetail">
+                <div class="vehicle-summary">
+                  <span class="vehicle-label">Xe đang chọn</span>
+                  <strong id="vehicleTitle">Xe 05</strong>
+                </div>
+                <div class="vehicle-grid">
+                  <div><span>Trạng thái</span><strong id="vehicleStatus">Đang giao hàng</strong></div>
+                  <div><span>Vị trí</span><strong id="vehicleLocation">DC Bình Dương</strong></div>
+                  <div><span>Chuyến</span><strong id="vehicleTrip">#05</strong></div>
+                  <div><span>Khay đã thu hồi</span><strong id="vehicleCrates">0/120</strong></div>
+                  <div><span>Điểm tiếp theo</span><strong id="vehicleNext">BHX A Thủ Đức</strong></div>
+                  <div><span>ETA</span><strong id="vehicleEta">42 phút</strong></div>
+                </div>
               </div>
               <div class="map-card">
                 <div class="map-route">
@@ -176,10 +215,18 @@
                   <div class="map-node end"></div>
                 </div>
                 <div class="map-text">
-                  <strong id="routeNote">DC Bình Dương → BHX A Quận 3 → 8.4 km</strong>
+                  <strong id="routeNote">DC Bình Dương → BHX A Quận 3 → BHX B Quận 10</strong>
                   <p id="routeDetail">Tuyến chiều về chờ tối ưu.</p>
                 </div>
-            </div>
+              </div>
+              <div class="waiting-table">
+                <div class="waiting-head">
+                  <span>BHX</span>
+                  <span>Khay rỗng</span>
+                  <span>Trạng thái</span>
+                </div>
+                <div id="waitingList"></div>
+              </div>
               <div class="metrics-row">
                 <div class="metric">
                   <span>Km tiết kiệm</span>
@@ -260,6 +307,38 @@
     </div>
 
   </main>
+
+  <div class="modal" id="historyModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Lịch sử khay #001</h3>
+        <button class="close-btn" id="closeHistoryBtn" type="button">Đóng</button>
+      </div>
+      <div class="timeline" id="historyTimeline"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="routeModal" aria-hidden="true">
+    <div class="modal-card route-modal-card">
+      <div class="modal-head">
+        <h3>Tuyến đề xuất</h3>
+        <button class="close-btn" id="closeRouteBtn" type="button">Đóng</button>
+      </div>
+      <div class="route-proposal">
+        <strong id="proposalTitle">BHX B Quận 10 → BHX A Thủ Đức → DC Bình Dương</strong>
+        <p id="proposalDesc">Xe sẽ ghé 2 điểm thu hồi và quay về DC.</p>
+        <div class="proposal-grid">
+          <div><span>Khoảng cách</span><strong id="proposalKm">8.4 km</strong></div>
+          <div><span>Điểm thu hồi</span><strong id="proposalStops">2</strong></div>
+          <div><span>Khay thu hồi</span><strong id="proposalCrates">120</strong></div>
+          <div><span>CO2 giảm</span><strong id="proposalCo2">1.8 kg</strong></div>
+          <div><span>ETA</span><strong id="proposalEta">35 phút</strong></div>
+          <div><span>Xe</span><strong id="proposalVehicle">Xe 05</strong></div>
+        </div>
+        <button class="action-btn" id="confirmRouteBtn" type="button">Xác nhận lộ trình</button>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="script.js"></script>
