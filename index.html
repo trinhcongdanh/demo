@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BHX Logistics Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="background">
+    <div class="grid-overlay"></div>
+  </div>
+
+  <main class="shell">
+    <header class="topbar card">
+      <div class="brand">
+        <div class="brand-mark">BHX</div>
+        <div>
+          <div class="eyebrow">Bách Hóa Xanh | Logistics Control Center</div>
+          <div class="topbar-title">Container Return & Backhaul</div>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <div class="meta-item">
+          <span>DC</span>
+          <strong>Trung tâm phân phối</strong>
+        </div>
+        <div class="meta-item">
+          <span>Network</span>
+          <strong>Online</strong>
+        </div>
+        <div class="meta-item">
+          <span>Updated</span>
+          <strong>Just now</strong>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar card">
+        <div class="status-card">
+          <div class="status-label">Trạng thái vận hành</div>
+          <div class="status-value" id="liveStatus">Tại DC - đang chứa hàng</div>
+          <div class="status-sub" id="liveSub">Khay #001</div>
+        </div>
+        <div class="mini-stats">
+          <div>
+            <strong id="statKm">1,240</strong>
+            <span>km tiết kiệm/tháng</span>
+          </div>
+          <div>
+            <strong id="statCo2">1.8</strong>
+            <span>tấn CO2 giảm/tháng</span>
+          </div>
+        </div>
+        <div class="info-list">
+          <div class="info-row"><span>Container</span><strong>#001</strong></div>
+          <div class="info-row"><span>Store</span><strong>BHX A</strong></div>
+          <div class="info-row"><span>Vehicle</span><strong>Xe 05</strong></div>
+          <div class="info-row"><span>Mode</span><strong>Sẵn sàng thu hồi</strong></div>
+        </div>
+      </aside>
+
+      <section class="content card">
+        <div class="tabs-head">
+          <div class="section-title">
+            <h1>Quản lý khay nhựa và điều phối chiều về</h1>
+            <p>Mobile QR cho siêu thị, TMS cho kho trung tâm, KPI real-time.</p>
+          </div>
+          <div class="tab-bar">
+            <button class="tab-btn active" data-tab="mobile">Mobile QR</button>
+            <button class="tab-btn" data-tab="tms">TMS</button>
+            <button class="tab-btn" data-tab="kpi">KPI</button>
+          </div>
+        </div>
+
+        <div class="tab-panel active" id="mobile">
+          <div class="mobile-layout">
+            <div class="phone-frame">
+              <div class="phone-top">
+                <span class="dot"></span>
+                <span>BHX Store Scanner</span>
+              </div>
+              <div class="phone-screen">
+                <div class="scanner-box">
+                  <div class="scanner-border"></div>
+                  <div class="qr-box" id="qrMount">
+                    <div class="qr-fallback">
+                      <div class="qr-grid"></div>
+                      <div class="qr-tag">QR</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="role-switcher" role="group" aria-label="Vai trò cập nhật">
+                  <button class="role-btn active" data-role="dc">1. Kho tổng</button>
+                  <button class="role-btn" data-role="driver" disabled>2. Tài xế</button>
+                  <button class="role-btn" data-role="store" disabled>3. Siêu thị</button>
+                  <button class="role-btn" data-role="return" disabled>4. Thu hồi</button>
+                </div>
+                <div class="step-track" aria-label="Tiến trình vòng đời khay">
+                  <div class="step-dot active" data-step="0"></div>
+                  <div class="step-line"></div>
+                  <div class="step-dot" data-step="1"></div>
+                  <div class="step-line"></div>
+                  <div class="step-dot" data-step="2"></div>
+                  <div class="step-line"></div>
+                  <div class="step-dot" data-step="3"></div>
+                </div>
+                <h2>QR khay #001</h2>
+                <p>Quét theo từng bước.</p>
+                <button class="action-btn" id="scanBtn">Quét QR</button>
+                <div class="result-card" id="scanResult">
+                  <span class="result-chip">Tại DC</span>
+                  <strong>Khay #001</strong>
+                  <p>Đang chứa hàng.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tms">
+          <div class="dashboard-grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Danh sách chuyến xe</h2>
+                <span class="pill live">Realtime</span>
+              </div>
+              <div class="route-list">
+                <article class="route-card active" data-route="05">
+                  <div>
+                    <h3>Xe 05</h3>
+                    <p>DC Bình Dương → BHX A Quận 3 → BHX B Quận 10</p>
+                    <small class="route-meta">8.4 km | 3 điểm dừng</small>
+                  </div>
+                  <span class="route-status">Đang giao</span>
+                </article>
+                <article class="route-card" data-route="12">
+                  <div>
+                    <h3>Xe 12</h3>
+                    <p>DC Bình Dương → BHX C Tân Bình → BHX D Phú Nhuận</p>
+                    <small class="route-meta">11.2 km | 3 điểm dừng</small>
+                  </div>
+                  <span class="route-status">Chờ thu hồi</span>
+                </article>
+                <article class="route-card" data-route="21">
+                  <div>
+                    <h3>Xe 21</h3>
+                    <p>DC Bình Dương → BHX E Quận 7 → BHX F Nhà Bè</p>
+                    <small class="route-meta">14.6 km | 3 điểm dừng</small>
+                  </div>
+                  <span class="route-status">Hoàn tất</span>
+                </article>
+              </div>
+              <div class="context-chip" id="routeContext">Ngữ cảnh: Xe 05</div>
+              <button class="action-btn secondary" id="backhaulBtn">
+                <span class="btn-spinner" aria-hidden="true"></span>
+                <span class="btn-label">Tối ưu chiều về</span>
+              </button>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Lộ trình thu hồi</h2>
+                <span class="pill accent" id="suggestPill">Sẵn sàng</span>
+              </div>
+              <div class="map-card">
+                <div class="map-route">
+                  <div class="map-node start"></div>
+                  <div class="map-line"></div>
+                  <div class="map-node mid"></div>
+                  <div class="map-line dashed"></div>
+                  <div class="map-node end"></div>
+                </div>
+                <div class="map-text">
+                  <strong id="routeNote">DC Bình Dương → BHX A Quận 3 → 8.4 km</strong>
+                  <p id="routeDetail">Tuyến chiều về chờ tối ưu.</p>
+                </div>
+            </div>
+              <div class="metrics-row">
+                <div class="metric">
+                  <span>Km tiết kiệm</span>
+                  <strong id="saveKm">0</strong>
+                </div>
+                <div class="metric">
+                  <span>CO2 giảm</span>
+                  <strong id="saveCo2">0</strong>
+                </div>
+                <div class="metric">
+                  <span>Khay thu hồi</span>
+                  <strong id="saveCrate">0</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="kpi">
+          <div class="kpi-wrap">
+            <div class="kpi-table">
+              <div class="table-head">
+                <span>Chỉ số</span>
+                <span>Trước</span>
+                <span>Sau</span>
+                <span>Thay đổi</span>
+              </div>
+              <div class="table-row">
+                <span>Tỷ lệ thất thoát/mất mát khay rỗng</span>
+                <span>4.5% - 6%</span>
+                <span>&lt; 0.3%</span>
+                <span class="down">-93%</span>
+              </div>
+              <div class="table-row">
+                <span>Tỷ lệ xe chạy rỗng chiều về</span>
+                <span>65% - 70%</span>
+                <span>&lt; 15%</span>
+                <span class="down">+85% lấp đầy</span>
+              </div>
+              <div class="table-row">
+                <span>Thời gian bàn giao & thu hồi tại siêu thị</span>
+                <span>25 - 30 phút/chuyến</span>
+                <span>5 - 7 phút/chuyến</span>
+                <span class="down">-75%</span>
+              </div>
+              <div class="table-row">
+                <span>Tỷ lệ sai lệch tồn kho khay tại siêu thị</span>
+                <span>12% - 15%</span>
+                <span>&lt; 0.5%</span>
+                <span class="down">-96%</span>
+              </div>
+              <div class="table-row">
+                <span>Tỷ lệ số hóa chứng từ</span>
+                <span>0%</span>
+                <span>100%</span>
+                <span class="down">Paperless</span>
+              </div>
+            </div>
+            <div class="insight-card">
+              <h2>Hiệu quả tài chính</h2>
+              <ul>
+                <li>Tiết kiệm ~846 triệu VNĐ/năm từ giảm thất thoát khay.</li>
+                <li>Tiết kiệm ~963 triệu VNĐ/năm từ giảm nhiên liệu và tối ưu chiều về.</li>
+                <li>Giảm thời gian thao tác bàn giao, tăng năng suất vận hành.</li>
+              </ul>
+            </div>
+            <div class="insight-card">
+              <h2>Hiệu quả môi trường</h2>
+              <ul>
+                <li>Giảm khoảng 129.12 tấn CO2/năm.</li>
+                <li>Giảm chuyến xe chạy rỗng và phát thải không cần thiết.</li>
+                <li>Hạn chế rác thải nhựa công nghiệp do giảm mất khay.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
